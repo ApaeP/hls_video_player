@@ -17,7 +17,8 @@ export default class extends Controller {
       src: this.urlValue,
       controls: false,
       mute: true,
-      aspectRatio: '16/9'
+      aspectRatio: '16/9',
+      playsinline: true
     })
     this.player.addEventListener('loaded-data', () => this.element.classList.remove('loading') );
     this.player.addEventListener('play',        () => this.element.classList.add('playing') );
