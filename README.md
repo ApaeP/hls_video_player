@@ -17,6 +17,8 @@
 
 ### 2. Display a player
 
+![Example](./public/example.gif)
+
 1. Get an HLS stream URL:
     - In your browser, navigate to a website that livestreams something ([example](https://www.biarritz.fr/les-webcams/grande-plage-1)).
     - Open the developer tools and go to the **Network** tab.
@@ -68,7 +70,8 @@
         this.player = await VidstackPlayer.create({
           target: this.playerTarget,
           title: 'Livefeed',
-          src: this.urlValue
+          src: this.urlValue,
+          controls: true
         })
       }
     }
