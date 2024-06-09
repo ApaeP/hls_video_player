@@ -1,4 +1,6 @@
 $video-rounding: 1rem;
+$transition-duration: 0.5s;
+$overlay-color: rgba(0, 0, 0, 0.2);
 
 .video-player-container {
   position: relative;
@@ -27,7 +29,7 @@ $video-rounding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity $transition-duration ease-in-out;
     opacity: 0;
   }
 
@@ -44,7 +46,7 @@ $video-rounding: 1rem;
 
   .video-overlay {
     border-radius: $video-rounding;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: $overlay-color;
     color: white;
     font-size: 2rem;
     cursor: pointer;
