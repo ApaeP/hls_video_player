@@ -4,10 +4,7 @@ import { VidstackPlayer } from 'vidstack';
 // Connects to data-controller="video-player"
 export default class extends Controller {
   static targets = ["player"]
-  static values = {
-    url: String,
-    posterUrl: String
-  }
+  static values = { url: String }
 
   connect() {
     this.player = this.buildPlayer();
