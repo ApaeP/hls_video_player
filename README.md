@@ -70,59 +70,109 @@
         ```
 
 3. Customize the player (Optional)
-    * Hide the controls
+    * Update the javascript
         ```javascript
-        this.player = await VidstackPlayer.create({
-          target: this.playerTarget,
-          title: 'Livefeed',
-          src: this.urlValue,
-          controls: false
-        })
+        import { Controller } from "@hotwired/stimulus"
+        import { VidstackPlayer } from 'vidstack';
+
+        // Connects to data-controller="video-player"
+        export default class extends Controller {
+          static targets = ["player"]
+          static values = {
+            url: String,
+            posterUrl: String
+          }
+
+          connect() {
+            this.player = this.buildPlayer();
+          }
+
+          async buildPlayer() {
+            this.player = await VidstackPlayer.create({
+              target: this.playerTarget,
+              title: 'Livefeed',
+              src: this.urlValue,
+              controls: false,
+              mute: true,
+              aspectRatio: '16/9'
+            })
+            this.player.addEventListener('loaded-data', () => this.element.classList.remove('loading') );
+            this.player.addEventListener('play',        () => this.element.classList.add('playing') );
+            this.player.addEventListener('pause',       () => this.element.classList.remove('playing') );
+          }
+
+          playPause() {
+            this.player.paused ? this.player.play() : this.player.pause();
+          }
+        }
         ```
     * Add html overlay and classes
         ```html
-        <div class="video-player-container"
+        <div class="video-player-container loading"
              data-controller="video-player"
              data-video-player-url-value="<%= @url %>"
+             data-video-player-poster-url-value="<%= image_path('waver_logo.png') %>"
         >
           <div data-video-player-target="player"></div>
-          <div class="video-overlay"
+          <div class="video-overlay video-poster">
+            <%= image_tag 'waver_logo.png' %> <!-- This file is in the assets of this repo -->
+          </div>
+          <div class="video-overlay video-controls"
                data-action="click->video-player#playPause"
           >
             <%= image_tag 'play_white.png', class: "video-icon video-icon-play" %> <!-- This file is in the assets of this repo -->
             <%= image_tag 'pause_white.png', class: "video-icon video-icon-pause" %> <!-- This file is in the assets of this repo -->
           </div>
         </div>
+        ```
     * Add css in `app/assets/stylesheets/components/video_player.scss`
         ```scss
         $video-rounding: 1rem;
 
         .video-player-container {
           position: relative;
+          aspect-ratio: 16 / 9;
+          border-radius: $video-rounding;
           div[data-video-player-target="player"] {
+            border-radius: $video-rounding;
+            position: absolute;
+            top: 0;
+            bottom: 0;
             media-player {
               border-radius: $video-rounding;
-              }
             }
-            .video-overlay {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background-color: rgba(0, 0, 0, 0.5);
-              color: white;
-              font-size: 2rem;
-              opacity: 1;
-              transition: opacity 0.5s ease-in-out;
-              cursor: pointer;
+          }
+          .video-overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+          }
+          .video-poster {
+            pointer-events: none;
+            img {
+              max-width: 15rem;
+              max-height: 15rem;
+              object-fit: cover;
               border-radius: $video-rounding;
-              margin-bottom: 0.4rem; // fix weird overflow issue
+            }
+          }
+          .video-overlay {
+            border-radius: $video-rounding;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
             &:hover {
-              opacity: 0.4 !important;
+              opacity: 0.6 !important;
             }
             .video-icon {
               height: 50%;
@@ -148,26 +198,15 @@
               }
             }
           }
-        }
-        ```
-    * Add js in `javascript/controllers/video_player_controller.js`
-        ```javascript
-        playPause() {
-          if (this.player.paused) {
-            this.play();
-          } else {
-            this.pause();
+
+          &.loading {
+            .video-poster {
+              opacity: 1 !important;
+            }
+            .video-overlay {
+              opacity: 0;
+            }
           }
-        }
-
-        play() {
-          this.player.play();
-          this.element.classList.add('playing');
-        }
-
-        pause() {
-          this.player.pause();
-          this.element.classList.remove('playing');
         }
         ```
 

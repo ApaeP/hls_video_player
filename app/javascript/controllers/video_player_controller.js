@@ -1,10 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 import { VidstackPlayer } from 'vidstack';
 
-// Connects to data-controller="hls-player"
+// Connects to data-controller="video-player"
 export default class extends Controller {
   static targets = ["player"]
-  static values = { url: String }
+  static values = {
+    url: String,
+    posterUrl: String
+  }
 
   connect() {
     this.player = this.buildPlayer();
@@ -16,25 +19,15 @@ export default class extends Controller {
       title: 'Livefeed',
       src: this.urlValue,
       controls: false,
-      mute: true
+      mute: true,
+      aspectRatio: '16/9'
     })
+    this.player.addEventListener('loaded-data', () => this.element.classList.remove('loading') );
+    this.player.addEventListener('play',        () => this.element.classList.add('playing') );
+    this.player.addEventListener('pause',       () => this.element.classList.remove('playing') );
   }
 
   playPause() {
-    if (this.player.paused) {
-      this.play();
-    } else {
-      this.pause();
-    }
-  }
-
-  play() {
-    this.player.play();
-    this.element.classList.add('playing');
-  }
-
-  pause() {
-    this.player.pause();
-    this.element.classList.remove('playing');
+    this.player.paused ? this.player.play() : this.player.pause();
   }
 }

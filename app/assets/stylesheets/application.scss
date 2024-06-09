@@ -2,30 +2,48 @@ $video-rounding: 1rem;
 
 .video-player-container {
   position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: $video-rounding;
   div[data-video-player-target="player"] {
+    border-radius: $video-rounding;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     media-player {
       border-radius: $video-rounding;
-      }
     }
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      font-size: 2rem;
-      opacity: 1;
-      transition: opacity 0.5s ease-in-out;
-      cursor: pointer;
+  }
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+  }
+  .video-poster {
+    pointer-events: none;
+    img {
+      max-width: 15rem;
+      max-height: 15rem;
+      object-fit: cover;
       border-radius: $video-rounding;
-      margin-bottom: 0.4rem; // fix weird overflow issue
+    }
+  }
+  .video-overlay {
+    border-radius: $video-rounding;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
     &:hover {
-      opacity: 0.4 !important;
+      opacity: 0.6 !important;
     }
     .video-icon {
       height: 50%;
@@ -49,6 +67,15 @@ $video-rounding: 1rem;
       .video-icon-pause {
         display: block;
       }
+    }
+  }
+
+  &.loading {
+    .video-poster {
+      opacity: 1 !important;
+    }
+    .video-overlay {
+      opacity: 0;
     }
   }
 }

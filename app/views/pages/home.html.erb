@@ -4,12 +4,16 @@
     <div class="row">
       <div class="col-12 col-md-8 col-lg-6 mx-auto">
 
-        <div class="video-player-container"
+        <div class="video-player-container loading"
              data-controller="video-player"
              data-video-player-url-value="<%= @url %>"
+             data-video-player-poster-url-value="<%= image_path('waver_logo.png') %>"
         >
           <div data-video-player-target="player"></div>
-          <div class="video-overlay"
+          <div class="video-overlay video-poster">
+            <%= image_tag 'waver_logo.png' %>
+          </div>
+          <div class="video-overlay video-controls"
                data-action="click->video-player#playPause"
           >
             <%= image_tag 'play_white.png', class: "video-icon video-icon-play" %>
