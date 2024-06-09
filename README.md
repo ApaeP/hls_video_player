@@ -2,6 +2,14 @@
 
 ## Setup
 
+> Relevant files are
+> - [`config/importmap.rb`](./config/importmap.rb)
+> - [`app/views/layouts/application.html.erb`](./app/views/layouts/application.html.erb)
+> - [`app/controllers/pages_controller.rb`](./app/controllers/pages_controller.rb)
+> - [`app/views/pages/home.html.erb`](./app/views/pages/home.html.erb)
+> - [`app/javascript/controllers/video_player_controller.js`](./app/javascript/controllers/video_player_controller.js)
+> - [`app/assets/stylesheets/components/_video_player.scss`](./app/assets/stylesheets/components/_video_player.scss)
+
 ### 1. Install Vidstack
 
 1. Manually add the following line in your `config/importmap.rb` file:
@@ -133,7 +141,11 @@
     </div>
     ```
 
-3. Add CSS in `app/assets/stylesheets/components/video_player.scss`:
+3. Add CSS in `app/assets/stylesheets/components/_video_player.scss`:
+    > Don't forget to import the stylesheet in `app/assets/stylesheets/components/_index.scss`
+    > ```scss
+    > @import 'video_player';
+    > ```
     ```scss
     $video-rounding: 1rem;
 
