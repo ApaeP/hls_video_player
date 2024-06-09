@@ -1,96 +1,125 @@
-$video-rounding: 1rem;
+$video-border-radius: 1rem;
 $transition-duration: 0.5s;
 $overlay-color: rgba(0, 0, 0, 0.2);
+$video-width-ratio: 16;
+$video-height-ratio: 9;
+$video-ratio: #{$video-width-ratio} / #{$video-height-ratio};
+$video-border-width: 1rem;
+$video-border-offset: 1rem;
+$video-border-color: #0081A7;
+$video-background-color: #75d6dc;
 
-.video-player-container {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: $video-rounding;
+.video-player-component {
+  padding: calc(#{$video-border-width} + #{$video-border-offset});
 
-  div[data-video-player-target="player"] {
-    border-radius: $video-rounding;
-    position: absolute;
-    top: 0;
-    bottom: 0;
+  .video-player-container {
+    position: relative;
+    aspect-ratio: $video-ratio;
+    border-radius: $video-border-radius;
 
-    media-player {
-      border-radius: $video-rounding;
-    }
-  }
+    div[data-video-player-target="player"] {
+      border-radius: $video-border-radius;
+      position: absolute;
+      top: 0;
+      bottom: 0;
 
-  .video-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity $transition-duration ease-in-out;
-    opacity: 0;
-  }
-
-  .video-poster {
-    pointer-events: none;
-
-    img {
-      max-width: 15rem;
-      max-height: 15rem;
-      object-fit: cover;
-      border-radius: $video-rounding;
-    }
-  }
-
-  .video-overlay {
-    border-radius: $video-rounding;
-    background-color: $overlay-color;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.6 !important;
+      media-player {
+        border-radius: $video-border-radius;
+        height: 100%;
+        video {
+          width: 100%;
+          aspect-ratio: $video-ratio;
+          object-fit: cover;
+        }
+      }
     }
 
-    .video-icon {
-      height: 50%;
-      aspect-ratio: 1 / 1;
-      max-height: 10rem;
-    }
-
-    .video-icon-play {
-      display: block;
-    }
-
-    .video-icon-pause {
-      display: none;
-    }
-  }
-
-  &.playing {
     .video-overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity $transition-duration ease-in-out;
+    }
+
+    .video-poster {
+      pointer-events: none;
       opacity: 0;
 
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: $video-border-radius;
+      }
+    }
+
+    .video-controls {
+      border-radius: $video-border-radius;
+      background-color: $overlay-color;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0;
+
+      &:hover {
+        opacity: 0.6 !important;
+      }
+
+      .video-icon {
+        height: 50%;
+        aspect-ratio: 1 / 1;
+        max-height: 10rem;
+      }
+
       .video-icon-play {
-        display: none;
+        display: block;
       }
 
       .video-icon-pause {
-        display: block;
+        display: none;
       }
     }
-  }
 
-  &.loading {
-    .video-poster {
-      opacity: 1 !important;
+    .video-backfill {
+      z-index: -1;
+      background-color: $video-background-color;
+      border-radius: $video-border-radius;
+      outline-width: $video-border-width;
+      outline-color: $video-border-color;
+      outline-offset: $video-border-offset;
+      outline-style: solid;
     }
 
-    .video-overlay {
-      opacity: 0;
+    &.playing {
+      .video-controls {
+        opacity: 0;
+      }
+      .video-overlay {
+        .video-icon-play {
+          display: none;
+        }
+
+        .video-icon-pause {
+          display: block;
+        }
+      }
+    }
+
+    &.loading {
+      .video-poster {
+        opacity: 1 !important;
+      }
+
+      .video-controls {
+        opacity: 0;
+      }
     }
   }
 }

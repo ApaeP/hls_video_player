@@ -1,0 +1,120 @@
+<div class="container py-5">
+  <div class="py-5">
+    <div class="row">
+      <div class="col-12 col-md-8 col-lg-6 mx-auto">
+
+        <div data-controller="customize"
+             data-customize-border-radius-value="1rem"
+             data-customize-overlay-color-value="rgba(0, 0, 0, 0.2)"
+             data-customize-aspect-ratio-value="16/9"
+             data-customize-border-width-value="1rem"
+             data-customize-border-offset-value="1rem"
+             data-customize-border-color-value="#0081A7"
+             data-customize-background-color-value="#0081A7">
+
+          <div class="video-player-component mb-5">
+            <div class="video-player-container loading"
+                data-controller="video-player"
+                data-video-player-url-value="<%= @url %>"
+            >
+              <div data-video-player-target="player"></div>
+              <div class="video-overlay video-poster">
+                <%= image_tag 'waver_logo.png' %>
+              </div>
+              <div class="video-overlay video-controls"
+                  data-action="click->video-player#playPause"
+              >
+                <%= image_tag 'play_white.png', class: "video-icon video-icon-play" %>
+                <%= image_tag 'pause_white.png', class: "video-icon video-icon-pause" %>
+              </div>
+              <div class="video-overlay video-backfill"></div>
+            </div>
+          </div>
+
+          <pre class="bg-dark bg-opacity-75 text-light rounded-4 p-4 lh-1"><code data-customize-target="style"><%= @scss_variables %></code></pre>
+
+          <%= simple_form_for :customize,
+                              html: {
+                                data: {
+                                  customize_target: "form"
+                                }
+                              } do |f| %>
+            <%= f.input :border_radius,
+                        required: false,
+                        as: :string,
+                        label: "Border radius",
+                        input_html: {
+                          value: "1rem",
+                          data: {
+                            customize_target: "borderRadiusInput"
+                          }
+                        } %>
+            <%= f.input :controls_background_color,
+                        required: false,
+                        as: :string,
+                        label: "Controls overlay background color",
+                        input_html: {
+                          value: 'rgba(0, 0, 0, 0.2)',
+                          data: {
+                            customize_target: "controlsBackgroundColorInput"
+                          }
+                        } %>
+            <%= f.input :aspect_ratio,
+                        required: false,
+                        as: :string,
+                        label: "Aspect ratio",
+                        input_html: {
+                          value: '16/9',
+                          data: {
+                            customize_target: "aspectRatioInput"
+                          }
+                        } %>
+            <%= f.input :border_width,
+                        required: false,
+                        as: :string,
+                        label: "Border width",
+                        input_html: {
+                          value: '1rem',
+                          data: {
+                            customize_target: "borderWidthInput"
+                          }
+                        } %>
+            <%= f.input :border_offset,
+                        required: false,
+                        as: :string,
+                        label: "Border offset",
+                        input_html: {
+                          value: '1rem',
+                          data: {
+                            customize_target: "borderOffsetInput"
+                          }
+                        } %>
+            <%= f.input :border_color,
+                        required: false,
+                        as: :string,
+                        label: "Border color",
+                        input_html: {
+                          value: '#0081A7',
+                          data: {
+                            customize_target: "borderColorInput"
+                          }
+                        } %>
+            <%= f.input :background_color,
+                        required: false,
+                        as: :string,
+                        label: "Background color",
+                        input_html: {
+                          value: '#0081A7',
+                          data: {
+                            customize_target: "backgroundColorInput"
+                          }
+                        } %>
+
+          <% end %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
