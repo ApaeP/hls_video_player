@@ -68,3 +68,106 @@
           }
         }
         ```
+
+3. Customize the player (Optional)
+    * Hide the controls
+        ```javascript
+        this.player = await VidstackPlayer.create({
+          target: this.playerTarget,
+          title: 'Livefeed',
+          src: this.urlValue,
+          controls: false
+        })
+        ```
+    * Add html overlay and classes
+        ```html
+        <div class="video-player-container"
+             data-controller="video-player"
+             data-video-player-url-value="<%= @url %>"
+        >
+          <div data-video-player-target="player"></div>
+          <div class="video-overlay"
+               data-action="click->video-player#playPause"
+          >
+            <%= image_tag 'play_white.png', class: "video-icon video-icon-play" %> <!-- This file is in the assets of this repo -->
+            <%= image_tag 'pause_white.png', class: "video-icon video-icon-pause" %> <!-- This file is in the assets of this repo -->
+          </div>
+        </div>
+    * Add css in `app/assets/stylesheets/components/video_player.scss`
+        ```scss
+        $video-rounding: 1rem;
+
+        .video-player-container {
+          position: relative;
+          div[data-video-player-target="player"] {
+            media-player {
+              border-radius: $video-rounding;
+              }
+            }
+            .video-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: rgba(0, 0, 0, 0.5);
+              color: white;
+              font-size: 2rem;
+              opacity: 1;
+              transition: opacity 0.5s ease-in-out;
+              cursor: pointer;
+              border-radius: $video-rounding;
+              margin-bottom: 0.4rem; // fix weird overflow issue
+            &:hover {
+              opacity: 0.4 !important;
+            }
+            .video-icon {
+              height: 50%;
+              aspect-ratio: 1 / 1;
+              max-height: 10rem;
+            }
+            .video-icon-play {
+              display: block;
+            }
+            .video-icon-pause {
+              display: none;
+            }
+          }
+
+          &.playing {
+            .video-overlay {
+              opacity: 0;
+              .video-icon-play {
+                display: none;
+              }
+              .video-icon-pause {
+                display: block;
+              }
+            }
+          }
+        }
+        ```
+    * Add js in `javascript/controllers/video_player_controller.js`
+        ```javascript
+        playPause() {
+          if (this.player.paused) {
+            this.play();
+          } else {
+            this.pause();
+          }
+        }
+
+        play() {
+          this.player.play();
+          this.element.classList.add('playing');
+        }
+
+        pause() {
+          this.player.pause();
+          this.element.classList.remove('playing');
+        }
+        ```
+
