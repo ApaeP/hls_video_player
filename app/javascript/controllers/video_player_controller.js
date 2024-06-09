@@ -21,7 +21,6 @@ export default class extends Controller {
   }
 
   playPause() {
-    console.log(this.player.playing);
     if (this.player.paused) {
       this.play();
     } else {
