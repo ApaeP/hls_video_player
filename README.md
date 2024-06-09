@@ -76,6 +76,8 @@
 
 ### 3. Customize the player (Optional)
 
+![Example custom](./public/example_custom.gif)
+
 1. Update the JavaScript:
     ```javascript
     import { Controller } from "@hotwired/stimulus"
