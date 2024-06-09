@@ -1,0 +1,54 @@
+$video-rounding: 1rem;
+
+.video-player-container {
+  position: relative;
+  div[data-video-player-target="player"] {
+    media-player {
+      border-radius: $video-rounding;
+      }
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 2rem;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      cursor: pointer;
+      border-radius: $video-rounding;
+      margin-bottom: 0.4rem; // fix weird overflow issue
+    &:hover {
+      opacity: 0.4 !important;
+    }
+    .video-icon {
+      height: 50%;
+      aspect-ratio: 1 / 1;
+      max-height: 10rem;
+    }
+    .video-icon-play {
+      display: block;
+    }
+    .video-icon-pause {
+      display: none;
+    }
+  }
+
+  &.playing {
+    .video-overlay {
+      opacity: 0;
+      .video-icon-play {
+        display: none;
+      }
+      .video-icon-pause {
+        display: block;
+      }
+    }
+  }
+}

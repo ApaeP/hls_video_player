@@ -4,10 +4,17 @@
     <div class="row">
       <div class="col-12 col-md-8 col-lg-6 mx-auto">
 
-        <div data-controller="video-player"
+        <div class="video-player-container"
+             data-controller="video-player"
              data-video-player-url-value="<%= @url %>"
         >
           <div data-video-player-target="player"></div>
+          <div class="video-overlay"
+               data-action="click->video-player#playPause"
+          >
+            <%= image_tag 'play_white.png', class: "video-icon video-icon-play" %>
+            <%= image_tag 'pause_white.png', class: "video-icon video-icon-pause" %>
+          </div>
         </div>
 
       </div>

@@ -15,7 +15,27 @@ export default class extends Controller {
       target: this.playerTarget,
       title: 'Livefeed',
       src: this.urlValue,
-      controls: true
+      controls: false,
+      mute: true
     })
+  }
+
+  playPause() {
+    console.log(this.player.playing);
+    if (this.player.paused) {
+      this.play();
+    } else {
+      this.pause();
+    }
+  }
+
+  play() {
+    this.player.play();
+    this.element.classList.add('playing');
+  }
+
+  pause() {
+    this.player.pause();
+    this.element.classList.remove('playing');
   }
 }
